@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "develop": "cross-env API_HOST=localhost:8080 parcel src/index.html --port 3000",
-    "build": "parcel build --public-url dist src/index.html",
+    "build": "parcel build --public-url ./ src/index.html",
     "predeploy": "rm -rf dist && npm run build",
     "deploy": "gh-pages -d dist"
   },
