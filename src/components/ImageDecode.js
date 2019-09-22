@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Container from '../layouts/Container';
 import Form from '../layouts/Form';
 
-export default function ImageDecode({ onSubmit, result }) {
+export default function ImageDecode({ onSubmit, errorMessage, result }) {
     
   const [imageFile, setImageFile] = useState(null); 
   const [secretKey, setSecretKey] = useState('');
@@ -53,6 +53,11 @@ export default function ImageDecode({ onSubmit, result }) {
             onChange={({ target }) => setSecretKey(target.value)}
             required
           />
+          {
+            errorMessage ? 
+              <p className="error"><small>{errorMessage}</small></p> :
+              ""
+          }
         </div>
 
         <div className="form-group">

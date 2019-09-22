@@ -11,6 +11,7 @@ export default function App() {
   const [action, setAction] = useState(null);
   const [secretMessage, setSecretMessage] = useState(null);
   const [imageDownload, setImageDownload] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const apiHost = process.env.NODE_ENV == 'production' ?
     'https://metapixi.herokuapp.com' :
     'http://localhost:8080';
@@ -25,6 +26,7 @@ export default function App() {
       .post(`${apiHost}/encode`, fd)
       .then(({ data }) => {
         setImageDownload(data.image);
+        setErrorMessage(null);
       })
       .catch(console.error);
   };
@@ -38,8 +40,15 @@ export default function App() {
       .post(`${apiHost}/decode`, fd)
       .then(({ data }) => {
         setSecretMessage(data.message);
+        setErrorMessage(null);
       })
-      .catch(console.error);
+      .catch(err => {
+        if (!err.response || !err.response.data.statusCode) 
+          return console.error(err);
+
+        const message = err.response.data.message;
+        setErrorMessage(message);
+      });
   };
 
   return (
@@ -60,7 +69,7 @@ export default function App() {
         action == 'encode' ? 
         <ImageEncode onSubmit={encodeImage} result={imageDownload} /> : 
         action == 'decode' ? 
-        <ImageDecode onSubmit={decodeImage} result={secretMessage} /> : 
+        <ImageDecode onSubmit={decodeImage} result={secretMessage} errorMessage={errorMessage} /> : 
         ''
       }
     </div>

@@ -26,6 +26,11 @@ const Form = styled.form`
         cursor: pointer;
       }
     }
+
+    .error {
+      color: hsl(5, 100%, 45%);
+      font-size: 14px;
+    }
   }
 `;
 
