@@ -27,6 +27,7 @@ export default function App() {
       .then(({ data }) => {
         setImageDownload(data.image);
         setErrorMessage(null);
+        setSecretMessage(null);
       })
       .catch(console.error);
   };
@@ -41,6 +42,7 @@ export default function App() {
       .then(({ data }) => {
         setSecretMessage(data.message);
         setErrorMessage(null);
+        setImageDownload(null);
       })
       .catch(err => {
         if (!err.response || !err.response.data.statusCode) 

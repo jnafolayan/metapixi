@@ -29,7 +29,7 @@ const Form = styled.form`
 
     .error {
       color: hsl(5, 100%, 45%);
-      font-size: 14px;
+      font-size: 1rem;
     }
   }
 `;
