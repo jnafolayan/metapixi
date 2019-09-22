@@ -5,7 +5,11 @@
   "repository": "https://github.com/jnafolayan/metapixi",
   "author": "John Afolayan <jnafolayan@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "develop": "parcel src/index.html --port 3000"
+  },
   "dependencies": {
+    "axios": "^0.19.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-icons": "^3.7.0",

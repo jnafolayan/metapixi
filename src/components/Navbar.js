@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <Wrapper>
       <Container>
-        <NavbarBrand>Metapixi</NavbarBrand>
+        <NavbarBrand href="/">Meta<span>pixi</span></NavbarBrand>
         <Social>
           <a href="https://twitter.com/jnafolayan">
             <FaTwitter />
@@ -28,24 +28,31 @@ const Wrapper = styled.div`
   > div {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 `;
 
 const NavbarBrand = styled.a`
-  color: hsl(130, 100%, 42%);
+  color: rgb(90,90,90);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 24px;
+  letter-spacing: 0.05rem;
+  font-family: "Trebuchet MS";
 
-  &:hover {
-    text-decoration: none;
+  span {
+    color: hsl(130, 100%, 42%);
   }
 `;
 
 const Social = styled.div`
   a {
-    marin-left: 12px;
-    color: rgba(30,30,30,0.95);
+    margin-left: 12px;
+    color: rgb(90,90,90);
+    font-size: 1.8rem;
 
     &:hover {
-      border-bottom: 1px solid hsl(130, 100%, 42%);
+      color: #000;
     }
   }
 `;
