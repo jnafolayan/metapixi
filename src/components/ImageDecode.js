@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Container from '../layouts/Container';
 import Form from '../layouts/Form';
 
-export default function ImageDecode({ onSubmit }) {
+export default function ImageDecode({ onSubmit, result }) {
     
-  const [message, setMessage] = useState(''); 
   const [imageFile, setImageFile] = useState(null); 
 
   const recognizeImageFile = ({ target }) => {
@@ -42,11 +41,11 @@ export default function ImageDecode({ onSubmit }) {
         </div>
 
         {
-          message ? 
+          result ? 
           <div className="form-group">
             <textarea 
               placeholder="Type your secret message" 
-              value={message}
+              value={result}
               disabled
             ></textarea>
           </div> : 

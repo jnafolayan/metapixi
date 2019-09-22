@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Container from '../layouts/Container';
 import Form from '../layouts/Form';
 
-export default function ImageEncode({ onSubmit }) {
+export default function ImageEncode({ onSubmit, result }) {
     
   const messageRef = useRef(null);
   const [imageFile, setImageFile] = useState(null); 
@@ -47,10 +47,23 @@ export default function ImageEncode({ onSubmit }) {
         <div className="form-group">
           <SubmitBtn type="submit">ENCODE</SubmitBtn>
         </div>
+
+        {
+          result ?
+            <DownloadBtn 
+              href={result} 
+              download={`${imageFile.name}_${uuid()}`}
+            >
+              Download
+            </DownloadBtn> :
+            ""
+        } 
       </Form>
     </Container>
   );
 }
+
+const uuid = () => Math.random().toString(16).substring(2);
 
 const ImageLabel = styled.label`
   cursor: pointer;
@@ -89,6 +102,24 @@ const SubmitBtn = styled.button`
   font-size: 1.1rem;
   border-radius: 4px;
   box-shadow: 0 2px 12px rgba(80,80,80,0.2);
+
+  &:hover {
+    box-shadow: none;
+    background: transparent;
+  }
+`;
+
+const DownloadBtn = styled.a`
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+  padding: 16px 12px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(80,80,80,0.2);
+  color: #fff;
+  text-decoration: none;
 
   &:hover {
     box-shadow: none;

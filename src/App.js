@@ -9,6 +9,8 @@ import ImageDecode from './components/ImageDecode';
 
 export default function App() {
   const [action, setAction] = useState(null);
+  const [secretMessage, setSecretMessage] = useState(null);
+  const [imageDownload, setImageDownload] = useState(null);
 
   const encodeImage = ({ message, imageFile: file }) => {
     const fd = new FormData();
@@ -17,8 +19,8 @@ export default function App() {
     
     axios
       .post('http://localhost:8080/encode', fd)
-      .then(({ image }) => {
-        
+      .then(({ data }) => {
+        setImageDownload(data.image);
       });
   };
 
@@ -28,8 +30,8 @@ export default function App() {
     
     axios
       .post('http://localhost:8080/decode', fd)
-      .then(({ message }) => {
-        
+      .then(({ data }) => {
+        setSecretMessage(data.message);
       });
   };
 
@@ -49,9 +51,9 @@ export default function App() {
 
       {
         action == 'encode' ? 
-        <ImageEncode onSubmit={encodeImage}/> : 
+        <ImageEncode onSubmit={encodeImage} result={imageDownload} /> : 
         action == 'decode' ? 
-        <ImageDecode onSubmit={decodeImage}/> : 
+        <ImageDecode onSubmit={decodeImage} result={secretMessage} /> : 
         ''
       }
     </div>
