@@ -16,6 +16,13 @@ export default function App() {
     'https://metapixi.herokuapp.com' :
     'http://localhost:8080';
 
+  const switchState = state => {
+    setAction(state);
+    setSecretMessage(null);
+    setErrorMessage(null);
+    setImageDownload(null);
+  };
+
   const encodeImage = ({ message, secretKey, imageFile: file }) => {
     const fd = new FormData();
     fd.append('message', message);
@@ -26,8 +33,6 @@ export default function App() {
       .post(`${apiHost}/encode`, fd)
       .then(({ data }) => {
         setImageDownload(data.image);
-        setErrorMessage(null);
-        setSecretMessage(null);
       })
       .catch(console.error);
   };
@@ -41,8 +46,6 @@ export default function App() {
       .post(`${apiHost}/decode`, fd)
       .then(({ data }) => {
         setSecretMessage(data.message);
-        setErrorMessage(null);
-        setImageDownload(null);
       })
       .catch(err => {
         if (!err.response || !err.response.data.statusCode) 
@@ -59,10 +62,10 @@ export default function App() {
       <AppDesc />
       
       <EncodeOrDecode>
-        <button type="button" onClick={() => setAction('encode')}>
+        <button type="button" onClick={() => switchState('encode')}>
           Hide
         </button>
-        <button type="button" onClick={() => setAction('decode')}>
+        <button type="button" onClick={() => switchState('decode')}>
           Reveal
         </button>
       </EncodeOrDecode>
