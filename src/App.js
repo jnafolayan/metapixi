@@ -11,28 +11,35 @@ export default function App() {
   const [action, setAction] = useState(null);
   const [secretMessage, setSecretMessage] = useState(null);
   const [imageDownload, setImageDownload] = useState(null);
+  const apiHost = process.env.NODE_ENV == 'production' ?
+    'https://metapixi.herokuapp.com' :
+    'http://localhost:8080';
 
-  const encodeImage = ({ message, imageFile: file }) => {
+  const encodeImage = ({ message, secretKey, imageFile: file }) => {
     const fd = new FormData();
     fd.append('message', message);
+    fd.append('secretKey', secretKey);
     fd.append('image', file, file.name);
     
     axios
-      .post('http://localhost:8080/encode', fd)
+      .post(`${apiHost}/encode`, fd)
       .then(({ data }) => {
         setImageDownload(data.image);
-      });
+      })
+      .catch(console.error);
   };
 
-  const decodeImage = ({ imageFile: file }) => {
+  const decodeImage = ({ secretKey, imageFile: file }) => {
     const fd = new FormData();
+    fd.append('secretKey', secretKey);
     fd.append('image', file, file.name);
     
     axios
-      .post('http://localhost:8080/decode', fd)
+      .post(`${apiHost}/decode`, fd)
       .then(({ data }) => {
         setSecretMessage(data.message);
-      });
+      })
+      .catch(console.error);
   };
 
   return (

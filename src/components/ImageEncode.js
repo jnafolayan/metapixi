@@ -8,6 +8,7 @@ export default function ImageEncode({ onSubmit, result }) {
     
   const messageRef = useRef(null);
   const [imageFile, setImageFile] = useState(null); 
+  const [secretKey, setSecretKey] = useState('');
 
   const recognizeImageFile = ({ target }) => {
     const file = target.files[0];
@@ -16,18 +17,34 @@ export default function ImageEncode({ onSubmit, result }) {
     }
   };
 
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (!imageFile) return;
+    onSubmit({ secretKey, imageFile, message: messageRef.current.value });
+  };
+
   return (
     <Container>
       <Form
         action=""
         method="POST"
-        onSubmit={() => onSubmit({ message: messageRef.current.value, imageFile })}
+        onSubmit={handleSubmit}
       >
         <div className="form-group">
           <textarea 
             ref={messageRef}
             placeholder="Type your secret message" 
+            required
           ></textarea>
+        </div>
+
+        <div className="form-group">
+          <input 
+            placeholder="Type a secret key" 
+            value={secretKey}
+            onChange={({ target }) => setSecretKey(target.value)}
+            required
+          />
         </div>
 
         <div className="form-group">
@@ -40,6 +57,7 @@ export default function ImageEncode({ onSubmit, result }) {
               onChange={recognizeImageFile} 
               accept="image/*" 
               hidden
+              required
             />
           </ImageLabel>
         </div>
@@ -52,9 +70,9 @@ export default function ImageEncode({ onSubmit, result }) {
           result ?
             <DownloadBtn 
               href={result} 
-              download={`${imageFile.name}_${uuid()}`}
+              download={`${uuid()}_${imageFile.name}`}
             >
-              Download
+              DOWNLOAD
             </DownloadBtn> :
             ""
         } 
@@ -113,16 +131,17 @@ const DownloadBtn = styled.a`
   display: block;
   width: 100%;
   max-width: 250px;
+  text-align: center;
   margin: 0 auto;
   padding: 16px 12px;
   font-size: 1.1rem;
   border-radius: 4px;
+  background: hsl(120, 85%, 40%);
   box-shadow: 0 2px 12px rgba(80,80,80,0.2);
   color: #fff;
   text-decoration: none;
 
   &:hover {
     box-shadow: none;
-    background: transparent;
   }
 `;

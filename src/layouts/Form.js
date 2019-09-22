@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Form = styled.div`
+const Form = styled.form`
   font-size: 1.1rem;
 
   .form-group {

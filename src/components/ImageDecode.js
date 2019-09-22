@@ -7,6 +7,7 @@ import Form from '../layouts/Form';
 export default function ImageDecode({ onSubmit, result }) {
     
   const [imageFile, setImageFile] = useState(null); 
+  const [secretKey, setSecretKey] = useState('');
 
   const recognizeImageFile = ({ target }) => {
     const file = target.files[0];
@@ -15,12 +16,20 @@ export default function ImageDecode({ onSubmit, result }) {
     }
   };
 
+  const handleSubmit = event => {
+    event.preventDefault();
+    
+    if (!imageFile) return;
+
+    onSubmit({ imageFile, secretKey });
+  };
+
   return (
     <Container>
       <Form
         action=""
         method="POST"
-        onSubmit={() => onSubmit({ imageFile })}
+        onSubmit={handleSubmit}
       >
         <div className="form-group">
           <ImageLabel htmlFor="image">
@@ -32,8 +41,18 @@ export default function ImageDecode({ onSubmit, result }) {
               onChange={recognizeImageFile} 
               accept="image/*" 
               hidden
+              required
             />
           </ImageLabel>
+        </div>
+
+        <div className="form-group">
+          <input 
+            placeholder="Enter the secret key" 
+            value={secretKey}
+            onChange={({ target }) => setSecretKey(target.value)}
+            required
+          />
         </div>
 
         <div className="form-group">
@@ -92,10 +111,10 @@ const SubmitBtn = styled.button`
   padding: 16px 12px;
   font-size: 1.1rem;
   border-radius: 4px;
+  color: #fff;
   box-shadow: 0 2px 12px rgba(80,80,80,0.2);
 
   &:hover {
     box-shadow: none;
-    background: transparent;
   }
 `;
