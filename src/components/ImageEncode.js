@@ -28,6 +28,7 @@ export default function ImageEncode({ onSubmit, result }) {
     event.preventDefault();
     if (!imageFile) return;
     onSubmit({ secretKey, imageFile, message: messageRef.current.value });
+    setLoading(true);
   };
 
   return (
@@ -58,7 +59,7 @@ export default function ImageEncode({ onSubmit, result }) {
 
         <div className="form-group">
           <ImageLabel htmlFor="image">
-            <p>{ imageFile ? imageFile.name : ''}</p>
+            <p style={{ overflow: 'hidden' }}>{ imageFile ? imageFile.name : ''}</p>
             <button type="button">Upload</button>
             <input 
               type="file" 
@@ -78,7 +79,7 @@ export default function ImageEncode({ onSubmit, result }) {
             disabled={loading}
             className={loading ? 'processing' : ''}
           >
-            {loading ? 'Processing...' : 'DECODE'}
+            {loading ? 'Processing...' : 'ENCODE'}
           </SubmitBtn>
         </div>
 

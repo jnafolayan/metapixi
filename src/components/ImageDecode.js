@@ -41,7 +41,7 @@ export default function ImageDecode({ onSubmit, errorMessage, result }) {
       >
         <div className="form-group">
           <ImageLabel htmlFor="image">
-            <p>{ imageFile ? imageFile.name : ''}</p>
+            <p style={{ overflow: 'hidden' }}>{ imageFile ? imageFile.name : ''}</p>
             <button type="button">Upload</button>
             <input 
               name="image"
