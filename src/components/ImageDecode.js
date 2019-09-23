@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Container from '../layouts/Container';
@@ -8,6 +8,13 @@ export default function ImageDecode({ onSubmit, errorMessage, result }) {
     
   const [imageFile, setImageFile] = useState(null); 
   const [secretKey, setSecretKey] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (result || errorMessage) {
+      setLoading(false);
+    }
+  }, [errorMessage, result]);
 
   const recognizeImageFile = ({ target }) => {
     const file = target.files[0];
@@ -22,6 +29,7 @@ export default function ImageDecode({ onSubmit, errorMessage, result }) {
     if (!imageFile) return;
 
     onSubmit({ imageFile, secretKey });
+    setLoading(true);
   };
 
   return (
@@ -36,6 +44,7 @@ export default function ImageDecode({ onSubmit, errorMessage, result }) {
             <p>{ imageFile ? imageFile.name : ''}</p>
             <button type="button">Upload</button>
             <input 
+              name="image"
               type="file" 
               id="image" 
               onChange={recognizeImageFile} 
@@ -48,6 +57,7 @@ export default function ImageDecode({ onSubmit, errorMessage, result }) {
 
         <div className="form-group">
           <input 
+            name="secretKey"
             placeholder="Enter the secret key" 
             value={secretKey}
             onChange={({ target }) => setSecretKey(target.value)}
@@ -61,13 +71,20 @@ export default function ImageDecode({ onSubmit, errorMessage, result }) {
         </div>
 
         <div className="form-group">
-          <SubmitBtn type="submit">DECODE</SubmitBtn>
+          <SubmitBtn 
+            type="submit"
+            disabled={loading}
+            className={loading ? 'processing' : ''}
+          >
+            {loading ? 'Processing...' : 'DECODE'}
+          </SubmitBtn>
         </div>
 
         {
           result ? 
           <div className="form-group">
             <textarea 
+              name="secretMessage"
               placeholder="Type your secret message" 
               value={result}
               disabled
@@ -118,6 +135,11 @@ const SubmitBtn = styled.button`
   border-radius: 4px;
   color: #fff;
   box-shadow: 0 2px 12px rgba(80,80,80,0.2);
+
+  &.processing {
+    background: rgba(50,50,50,0.85)!important;
+    color: #fff!important;
+  }
 
   &:hover {
     box-shadow: none;

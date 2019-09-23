@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Container from '../layouts/Container';
@@ -9,6 +9,13 @@ export default function ImageEncode({ onSubmit, result }) {
   const messageRef = useRef(null);
   const [imageFile, setImageFile] = useState(null); 
   const [secretKey, setSecretKey] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (result) {
+      setLoading(false);
+    }
+  }, [result]);
 
   const recognizeImageFile = ({ target }) => {
     const file = target.files[0];
@@ -32,6 +39,7 @@ export default function ImageEncode({ onSubmit, result }) {
       >
         <div className="form-group">
           <textarea 
+            name="secretMessage"
             ref={messageRef}
             placeholder="Type your secret message" 
             required
@@ -40,6 +48,7 @@ export default function ImageEncode({ onSubmit, result }) {
 
         <div className="form-group">
           <input 
+            name="secretKey"
             placeholder="Type a secret key" 
             value={secretKey}
             onChange={({ target }) => setSecretKey(target.value)}
@@ -53,6 +62,7 @@ export default function ImageEncode({ onSubmit, result }) {
             <button type="button">Upload</button>
             <input 
               type="file" 
+              name="image"
               id="image" 
               onChange={recognizeImageFile} 
               accept="image/*" 
@@ -63,7 +73,13 @@ export default function ImageEncode({ onSubmit, result }) {
         </div>
 
         <div className="form-group">
-          <SubmitBtn type="submit">ENCODE</SubmitBtn>
+          <SubmitBtn 
+            type="submit"
+            disabled={loading}
+            className={loading ? 'processing' : ''}
+          >
+            {loading ? 'Processing...' : 'DECODE'}
+          </SubmitBtn>
         </div>
 
         {
@@ -120,6 +136,11 @@ const SubmitBtn = styled.button`
   font-size: 1.1rem;
   border-radius: 4px;
   box-shadow: 0 2px 12px rgba(80,80,80,0.2);
+
+  &.processing {
+    background: rgba(50,50,50,0.85)!important;
+    color: #fff!important;
+  }
 
   &:hover {
     box-shadow: none;
