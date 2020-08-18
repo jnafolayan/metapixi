@@ -6,7 +6,7 @@ Metapixi makes it easy to hide text inside images. You can download the encrypte
 [https://jnafolayan.github.io/metapixi](https://jnafolayan.github.io/metapixi)
 
 ### Backend counterpart
-[https://jnafolayan.github.io/metapixi-api](https://jnafolayan.github.io/metapixi-api)
+[https://github.com/jnafolayan/metapixi-api](https://github.com/jnafolayan/metapixi-api)
 
 ### Technology
 Built with [React](https://reactjs.org) ❤
